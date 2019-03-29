@@ -33,16 +33,11 @@ func main() {
 	}
 
 	claimedFabricParts := [1000][1000]int8{}
-	counter := 0
 
 	for _, claim := range claims {
 		for y := claim.startPosition.y; y < claim.startPosition.y+claim.size.y; y++ {
 			for x := claim.startPosition.x; x < claim.startPosition.x+claim.size.x; x++ {
 				claimedFabricParts[y][x]++
-
-				if claimedFabricParts[y][x] == 2 {
-					counter++
-				}
 			}
 		}
 	}
@@ -52,10 +47,6 @@ func main() {
 			for x := claim.startPosition.x; x < claim.startPosition.x+claim.size.x; x++ {
 				if claimedFabricParts[y][x] >= 2 {
 					goto BreakFromOverlap
-				}
-
-				if claimedFabricParts[y][x] == 2 {
-					counter++
 				}
 			}
 		}
