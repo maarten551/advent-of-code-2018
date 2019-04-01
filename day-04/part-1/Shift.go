@@ -40,7 +40,7 @@ func (s *Shift) processSleep() {
 		sleepAtMinute, s.sleepAtMinutes = s.sleepAtMinutes[0], s.sleepAtMinutes[1:]
 		wakeAtMinute, s.wakeUpAtMinutes = s.wakeUpAtMinutes[0], s.wakeUpAtMinutes[1:]
 
-		for x := sleepAtMinute; x < (wakeAtMinute - sleepAtMinute); x++ {
+		for x := sleepAtMinute; x < (sleepAtMinute + (wakeAtMinute - sleepAtMinute)); x++ {
 			s.minutesAsleep[x] = true
 		}
 	}
