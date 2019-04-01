@@ -1,14 +1,38 @@
 package main
 
 type Guard struct {
-	id     int
-	shifts []Shift
+	Id     int
+	Shifts map[string]*Shift
 }
 
 func CreateGuard(id int) *Guard {
 	instance := new(Guard)
-	instance.id = id
-	instance.shifts = make([]Shift, 0)
+	instance.Id = id
+	instance.Shifts = make(map[string]*Shift, 0)
 
 	return instance
+}
+
+func (g Guard) calculateSleepStatistics() (averageSleepPerShift float64, sleepsMostAtMinute int) {
+	sleepInMinutesSum := 0.
+	sleepCountAtMinute := [60]int{}
+
+	for _, shift := range g.Shifts {
+		shift.processSleep()
+
+		for minute, isAsleep := range shift.minutesAsleep {
+			if isAsleep {
+				sleepCountAtMinute[minute]++
+				sleepInMinutesSum++
+
+				if sleepCountAtMinute[minute] > sleepCountAtMinute[sleepsMostAtMinute] {
+					sleepsMostAtMinute = minute
+				}
+			}
+		}
+	}
+
+	averageSleepPerShift = sleepInMinutesSum
+
+	return
 }
